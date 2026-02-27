@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Labor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+            background-color: #f9f9f9;
+        }
+        h1, h2 {
+            color: #2c3e50;
+        }
+        form {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 500px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+        input, select, button {
+            margin-top: 5px;
+            padding: 8px;
+            width: 100%;
+            box-sizing: border-box;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            margin-top: 15px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        a {
+            display: inline-block;
+            margin-top: 15px;
+            color: #3498db;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+<h1>Editar Labor</h1>
+
+<form th:action="@{/labores/actualizar/{id}(id=${labor.id})}" method="post">
+
+    <label>Tipo:</label>
+    <select name="tipo" required>
+        <option th:value="Polinizacion" th:text="'Polinizacion'" 
+            th:selected="${labor.tipo == 'Polinizacion'}"></option>
+        <option th:value="Fertilizacion" th:text="'Fertilizacion'" 
+            th:selected="${labor.tipo == 'Fertilizacion'}"></option>
+        <option th:value="Control malezas" th:text="'Control malezas'" 
+            th:selected="${labor.tipo == 'Control malezas'}"></option>
+        <option th:value="Sanidad" th:text="'Sanidad'" 
+            th:selected="${labor.tipo == 'Sanidad'}"></option>
+        <option th:value="Cosecha" th:text="'Cosecha'" 
+            th:selected="${labor.tipo == 'Cosecha'}"></option>
+    </select>
+
+    <label>Frecuencia (días):</label>
+    <input type="number" name="frecuenciaDias" th:value="${labor.frecuenciaDias}" required>
+
+    <label>Fecha última ejecución:</label>
+    <input type="date" name="fechaUltimaEjecucion" 
+           th:value="${labor.fechaUltimaEjecucion}" required>
+
+    <label>Trabajador:</label>
+    <select name="trabajadorId" required>
+        <option th:each="t : ${trabajadores}" 
+                th:value="${t.id}" 
+                th:text="${t.nombre}" 
+                th:selected="${t.id == labor.trabajador.id}">
+        </option>
+    </select>
+
+    <label>Precio:</label>
+    <input type="number" name="precio" step="0.01" th:value="${labor.precio}" required>
+
+    <button type="submit">Actualizar Labor</button>
+</form>
+
+<a th:href="@{'/lotes/' + ${labor.lote.id}}">Volver al lote</a>
+
+</body>
+</html>

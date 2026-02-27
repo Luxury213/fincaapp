@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Lote</title>
+</head>
+<body>
+
+<h2>Editar Lote</h2>
+
+<form th:action="@{/lotes/editar/{id}(id=${lote.id})}" method="post">
+    <input type="text" name="nombre" 
+           th:value="${lote.nombre}" required>
+
+    <input type="number" name="cantidadPalmas" 
+           th:value="${lote.cantidadPalmas}" required>
+
+    <button type="submit">Actualizar</button>
+</form>
+
+<br>
+<a th:href="@{/lotes}">Volver</a>
+
+</body>
+</html>

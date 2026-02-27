@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Lotes</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+
+        h1 {
+            color: #2c3e50;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: #fff;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #ccc;
+            text-align: left;
+        }
+
+        th {
+            background: #ecf0f1;
+        }
+
+        button {
+            padding: 6px 12px;
+            cursor: pointer;
+            border: none;
+            border-radius: 4px;
+        }
+
+        .btn-primary {
+            background-color: #3498db;
+            color: white;
+        }
+
+        .btn-danger {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .btn-secondary {
+            background-color: #95a5a6;
+            color: white;
+        }
+
+        .card {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 6px;
+            background: #fff;
+        }
+
+        input[type="text"], input[type="number"] {
+            padding: 6px;
+            width: 200px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        a {
+            text-decoration: none;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <h1>Gestión de Lotes</h1>
+
+    <a href="/">
+        <button class="btn-secondary">Volver al inicio</button>
+    </a>
+
+    <div class="card">
+        <h2>Crear Lote</h2>
+        <!-- Cambié la acción del formulario para que coincida con tu controller -->
+        <form action="/lotes" method="post">
+            <label>Nombre:</label>
+            <input name="nombre" type="text" required>
+            <br><br>
+
+            <label>Cantidad de Palmas:</label>
+            <input name="cantidadPalmas" type="number" min="1" required>
+            <br><br>
+
+            <button type="submit" class="btn-primary">Crear Lote</button>
+        </form>
+    </div>
+
+    <table>
+        <tr>
+            <th>Nombre</th>
+            <th>Palmas</th>
+            <th>Acciones</th>
+        </tr>
+
+        <tr th:each="lote : ${lotes}">
+            <td th:text="${lote.nombre}"></td>
+            <td th:text="${lote.cantidadPalmas}"></td>
+            <td>
+                <a th:href="@{'/lotes/' + ${lote.id}}">
+                    <button class="btn-primary">Entrar</button>
+                </a>
+
+                <form th:action="@{'/lotes/eliminar/' + ${lote.id}}" method="post" style="display:inline;">
+                    <button class="btn-danger" type="submit">Eliminar</button>
+                </form>
+
+                <a th:href="@{'/lotes/editar/' + ${lote.id}}">
+                    <button class="btn-secondary">Editar</button>
+                </a>
+            </td>
+        </tr>
+    </table>
+
+</body>
+
+</html>
