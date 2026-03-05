@@ -32,8 +32,8 @@ public class Trabajador {
     private String documento;
 
     private String telefono;
-    
-    @Column(nullable = false)
+
+    @Column(name = "sueldo_base")
 private Double sueldoBase;
 
 }

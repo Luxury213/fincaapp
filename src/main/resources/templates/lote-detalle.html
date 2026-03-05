@@ -2,50 +2,134 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-<title>Detalle del Lote</title>
+
+<title>Detalle del Lote | FincaApp</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<link rel="icon" type="image/svg+xml" href="/images/banana-icon.svg">
 
 <style>
 
 body{
-font-family: Arial;
-margin:20px;
+background:linear-gradient(135deg,#e8f5e9,#f1f8e9,#e0f2f1);
+font-family:system-ui;
+min-height:100vh;
 }
 
-h1,h2{
-color:#2c3e50;
+/* NAVBAR */
+
+.navbar{
+background:#2E7D32;
+box-shadow:0 3px 10px rgba(0,0,0,0.1);
 }
 
-table{
-width:100%;
-border-collapse:collapse;
-margin-top:20px;
+.navbar-brand{
+font-weight:600;
+font-size:18px;
 }
 
-th,td{
-padding:10px;
-border:1px solid #ccc;
-text-align:left;
+/* TITULOS */
+
+.page-title{
+color:#1B5E20;
+font-weight:700;
+}
+
+.section-title{
+color:#2E7D32;
+font-weight:600;
+margin-bottom:15px;
+}
+
+/* CARDS */
+
+.card-custom{
+background:white;
+border-radius:14px;
+padding:25px;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
+margin-bottom:30px;
+}
+
+/* TABLA */
+
+.table-container{
+background:white;
+border-radius:14px;
+padding:20px;
+box-shadow:0 10px 25px rgba(0,0,0,0.08);
 }
 
 th{
-background:#f2f2f2;
+background:#E8F5E9;
+color:#1B5E20;
 }
 
-button{
-padding:6px 12px;
-cursor:pointer;
+td,th{
+padding:12px;
+vertical-align:middle;
 }
 
-.card{
-border:1px solid #ddd;
-padding:15px;
-margin-top:20px;
-border-radius:6px;
-background:#fafafa;
+/* INPUTS */
+
+input,select{
+
+border-radius:8px !important;
+
 }
 
-.inline{
-display:inline;
+input:focus,select:focus{
+
+border-color:#66BB6A !important;
+box-shadow:0 0 0 0.2rem rgba(102,187,106,0.25) !important;
+
+}
+
+/* BOTONES */
+
+.btn-main{
+background:#2E7D32;
+border:none;
+border-radius:8px;
+color:white;
+}
+
+.btn-main:hover{
+background:#1B5E20;
+}
+
+.btn-success-custom{
+background:#66BB6A;
+border:none;
+border-radius:8px;
+color:white;
+}
+
+.btn-success-custom:hover{
+background:#4CAF50;
+}
+
+.btn-danger-custom{
+background:#E53935;
+border:none;
+border-radius:8px;
+color:white;
+}
+
+.btn-danger-custom:hover{
+background:#C62828;
+}
+
+.btn-secondary-custom{
+background:#90A4AE;
+border:none;
+border-radius:8px;
+color:white;
+}
+
+.btn-secondary-custom:hover{
+background:#78909C;
 }
 
 </style>
@@ -54,27 +138,68 @@ display:inline;
 
 <body>
 
-<h1>Detalle del Lote</h1>
 
-Nombre:
+<nav class="navbar navbar-dark">
+
+<div class="container">
+
+<a class="navbar-brand" href="/">
+
+<img src="/images/banana-icon.svg" width="28">
+
+FincaApp
+
+</a>
+
+</div>
+
+</nav>
+
+
+<div class="container mt-4">
+
+<h2 class="page-title mb-4">
+
+🌴 Detalle del Lote
+
+</h2>
+
+
+<div class="card-custom">
+
+<h5 class="section-title">Información del lote</h5>
+
+<p>
+
+<strong>Nombre:</strong>
 <span th:text="${lote.nombre}"></span>
 
-<br><br>
+</p>
 
-Cantidad de palmas:
+<p>
+
+<strong>Cantidad de palmas:</strong>
 <span th:text="${lote.cantidadPalmas}"></span>
 
-<br><br>
+</p>
 
-<hr>
+</div>
 
-<h2>Crear nueva labor</h2>
+
+
+<div class="card-custom">
+
+<h5 class="section-title">Crear nueva labor</h5>
 
 <form th:action="@{/labores/crear/{id}(id=${lote.id})}" method="post">
 
-Tipo:
+<div class="row g-3">
 
-<select name="tipo">
+<div class="col-md-4">
+
+<label class="form-label">Tipo</label>
+
+<select name="tipo" class="form-control">
 
 <option value="Polinizacion">Polinizacion</option>
 <option value="Fertilizacion">Fertilizacion</option>
@@ -84,23 +209,32 @@ Tipo:
 
 </select>
 
-<br><br>
+</div>
 
-Frecuencia dias:
 
-<input type="number" name="frecuenciaDias" required>
+<div class="col-md-2">
 
-<br><br>
+<label class="form-label">Frecuencia</label>
 
-Fecha ultima ejecucion:
+<input type="number" name="frecuenciaDias" class="form-control" required>
 
-<input type="date" name="fechaUltimaEjecucion" required>
+</div>
 
-<br><br>
 
-Trabajador:
+<div class="col-md-3">
 
-<select name="trabajadorId" required>
+<label class="form-label">Última ejecución</label>
+
+<input type="date" name="fechaUltimaEjecucion" class="form-control" required>
+
+</div>
+
+
+<div class="col-md-3">
+
+<label class="form-label">Trabajador</label>
+
+<select name="trabajadorId" class="form-control" required>
 
 <option th:each="t : ${trabajadores}"
         th:value="${t.id}"
@@ -109,15 +243,22 @@ Trabajador:
 
 </select>
 
-<br><br>
+</div>
 
-Costo de la labor:
 
-<input type="number" step="0.01" name="precio" required>
+<div class="col-md-3">
 
-<br><br>
+<label class="form-label">Costo</label>
 
-<button>
+<input type="number" step="0.01" name="precio" class="form-control" required>
+
+</div>
+
+</div>
+
+<br>
+
+<button class="btn btn-main">
 
 Crear Labor
 
@@ -125,22 +266,33 @@ Crear Labor
 
 </form>
 
+</div>
 
-<hr>
 
-<h2>Labores del lote</h2>
 
-<table>
+<div class="table-container">
+
+<h5 class="section-title">Labores del lote</h5>
+
+<table class="table table-hover">
+
+<thead>
 
 <tr>
+
 <th>Tipo</th>
 <th>Frecuencia</th>
-<th>Ultima ejecucion</th>
-<th>Proxima fecha</th>
+<th>Última ejecución</th>
+<th>Próxima fecha</th>
 <th>Trabajador</th>
 <th>Costo</th>
 <th>Acciones</th>
+
 </tr>
+
+</thead>
+
+<tbody>
 
 <tr th:each="labor : ${labores}">
 
@@ -156,16 +308,11 @@ Crear Labor
 
 <form th:action="@{/labores/actualizar/{id}(id=${labor.id})}" method="post">
 
-<!-- CAMPOS OCULTOS NECESARIOS -->
-
 <input type="hidden" name="tipo" th:value="${labor.tipo}">
-
 <input type="hidden" name="frecuenciaDias" th:value="${labor.frecuenciaDias}">
-
 <input type="hidden" name="fechaUltimaEjecucion" th:value="${labor.fechaUltimaEjecucion}">
 
-
-<select name="trabajadorId" required>
+<select name="trabajadorId" class="form-control" required>
 
 <option th:each="t : ${trabajadores}"
         th:value="${t.id}"
@@ -183,13 +330,14 @@ Crear Labor
        step="0.01"
        name="precio"
        th:value="${labor.precio}"
+       class="form-control"
        required>
 
 </td>
 
 <td>
 
-<button type="submit">
+<button type="submit" class="btn btn-success-custom btn-sm">
 
 Actualizar
 
@@ -201,7 +349,7 @@ Actualizar
 
 <form th:action="@{'/labores/ejecutar/' + ${labor.id}}" method="post">
 
-<button>
+<button class="btn btn-main btn-sm">
 
 Ejecutar
 
@@ -213,7 +361,7 @@ Ejecutar
 
 <form th:action="@{'/labores/eliminar/' + ${labor.id}}" method="post">
 
-<button>
+<button class="btn btn-danger-custom btn-sm">
 
 Eliminar
 
@@ -225,20 +373,25 @@ Eliminar
 
 </tr>
 
+</tbody>
+
 </table>
 
+</div>
 
-<br>
 
 <a href="/lotes">
 
-<button>
+<button class="btn btn-secondary-custom mt-4">
 
 Volver
 
 </button>
 
 </a>
+
+
+</div>
 
 </body>
 

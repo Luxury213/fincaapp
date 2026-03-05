@@ -1,37 +1,56 @@
 package com.finca.fincaapp.controller;
 
+import java.time.Month;
+import java.time.format.TextStyle;
+import java.util.Locale;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.finca.fincaapp.service.FinanzaService;
+import com.finca.fincaapp.service.TrabajadorService;
+
+import lombok.RequiredArgsConstructor;
 
 @Controller
-@RequestMapping("/finanzas")
+@RequiredArgsConstructor
 public class FinanzaController {
 
+    private final TrabajadorService trabajadorService;
     private final FinanzaService finanzaService;
 
-    public FinanzaController(FinanzaService finanzaService) {
-        this.finanzaService = finanzaService;
+    @GetMapping("/finanzas")
+    public String verFinanzas(Model model) {
+
+        model.addAttribute("trabajadores", trabajadorService.listarTodos());
+
+        return "finanzas/list";
     }
 
-    @GetMapping("/salario/{trabajadorId}")
-    public String verSalario(
-            @PathVariable Long trabajadorId,
-            @RequestParam int mes,
-            @RequestParam int anio,
-            Model model) {
+@GetMapping("/finanzas/reporte/{trabajadorId}")
+public String verReporte(
+        @PathVariable Long trabajadorId,
+        @RequestParam int mes,
+        @RequestParam int anio,
+        Model model
+) {
 
-        double salario = finanzaService.calcularPagoMensual(trabajadorId, mes, anio);
+    double pago = finanzaService.calcularPagoMensual(trabajadorId, mes, anio);
 
-        model.addAttribute("salario", salario);
-        model.addAttribute("mes", mes);
-        model.addAttribute("anio", anio);
+    String nombreMes = Month.of(mes)
+            .getDisplayName(TextStyle.FULL, new Locale("es", "ES"));
 
-        return "salario";
-    }
+    model.addAttribute("trabajador",
+            trabajadorService.buscarPorId(trabajadorId));
+
+    model.addAttribute("mes", nombreMes);
+    model.addAttribute("anio", anio);
+    model.addAttribute("pago", pago);
+
+    return "finanzas/reporte";
+}
+
 }

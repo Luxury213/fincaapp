@@ -16,8 +16,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class FinanzaService {
 
-    private final HistorialRepository historialRepository;
     private final TrabajadorRepository trabajadorRepository;
+    private final HistorialRepository historialRepository;
 
     public double calcularPagoMensual(Long trabajadorId, int mes, int anio) {
 
@@ -35,6 +35,11 @@ public class FinanzaService {
                 .mapToDouble(h -> h.getLabor().getPrecio())
                 .sum();
 
+        if(trabajador.getSueldoBase() == null){
+            return extras;
+        }
+
         return trabajador.getSueldoBase() + extras;
     }
+
 }

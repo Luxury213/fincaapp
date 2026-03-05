@@ -30,4 +30,13 @@ public class TrabajadorService {
     return trabajadorRepository.findById(id).orElse(null);
 }
 
+public void actualizarSueldo(Long id, Double sueldo) {
+
+    Trabajador trabajador = trabajadorRepository.findById(id).orElseThrow();
+
+    trabajador.setSueldoBase(sueldo);
+
+    trabajadorRepository.save(trabajador);
+}
+
 }
