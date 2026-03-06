@@ -1,102 +1,88 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Editar Labor</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 30px;
-            background-color: #f9f9f9;
-        }
-        h1, h2 {
-            color: #2c3e50;
-        }
-        form {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            max-width: 500px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-        }
-        label {
-            font-weight: bold;
-            display: block;
-            margin-top: 10px;
-        }
-        input, select, button {
-            margin-top: 5px;
-            padding: 8px;
-            width: 100%;
-            box-sizing: border-box;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-        }
-        button {
-            background-color: #3498db;
-            color: white;
-            border: none;
-            margin-top: 15px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button:hover {
-            background-color: #2980b9;
-        }
-        a {
-            display: inline-block;
-            margin-top: 15px;
-            color: #3498db;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-    </style>
+<meta charset="UTF-8">
+<title>Editar Labor | FincaApp</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="/images/banana-icon.svg">
+<style>
+body{background:linear-gradient(135deg,#e8f5e9,#f1f8e9,#e0f2f1);font-family:system-ui;min-height:100vh;transition:background 0.3s,color 0.3s;}
+.navbar{background:#2E7D32;box-shadow:0 3px 10px rgba(0,0,0,0.1);}
+.navbar-brand{font-weight:600;font-size:18px;}
+.form-card{background:white;border-radius:16px;padding:35px;box-shadow:0 10px 25px rgba(0,0,0,0.08);}
+.page-title{font-size:24px;font-weight:700;color:#1B5E20;}
+.form-control{border-radius:8px;padding:10px;}
+.form-control:focus{border-color:#66BB6A;box-shadow:0 0 0 0.2rem rgba(102,187,106,0.25);}
+.btn-main{background:#2E7D32;border:none;border-radius:8px;padding:8px 18px;color:white;font-weight:500;}
+.btn-main:hover{background:#1B5E20;color:white;}
+.btn-secondary-custom{background:#90A4AE;border:none;color:white;border-radius:8px;padding:8px 18px;}
+.btn-secondary-custom:hover{background:#78909C;color:white;}
+
+/* DARK MODE */
+body.dark{background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460);color:#e0e0e0;}
+body.dark .page-title{color:#81c784;}
+body.dark .form-card{background:#1e1e2e;box-shadow:0 10px 25px rgba(0,0,0,0.4);}
+body.dark .form-control{background:#2a2a3e;color:#e0e0e0;border-color:#444;}
+body.dark .form-label{color:#ccc;}
+</style>
 </head>
 <body>
 
-<h1>Editar Labor</h1>
+<nav class="navbar navbar-dark">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <img src="/images/banana-icon.svg" width="28"> FincaApp
+    </a>
+  </div>
+</nav>
 
-<form th:action="@{/labores/actualizar/{id}(id=${labor.id})}" method="post">
+<div class="container mt-5" style="max-width:650px;">
+  <div class="form-card">
+    <div class="page-title mb-4">✏️ Editar Labor</div>
+    <form th:action="@{/labores/actualizar/{id}(id=${labor.id})}" method="post">
 
-    <label>Tipo:</label>
-    <select name="tipo" required>
-        <option th:value="Polinizacion" th:text="'Polinizacion'" 
-            th:selected="${labor.tipo == 'Polinizacion'}"></option>
-        <option th:value="Fertilizacion" th:text="'Fertilizacion'" 
-            th:selected="${labor.tipo == 'Fertilizacion'}"></option>
-        <option th:value="Control malezas" th:text="'Control malezas'" 
-            th:selected="${labor.tipo == 'Control malezas'}"></option>
-        <option th:value="Sanidad" th:text="'Sanidad'" 
-            th:selected="${labor.tipo == 'Sanidad'}"></option>
-        <option th:value="Cosecha" th:text="'Cosecha'" 
-            th:selected="${labor.tipo == 'Cosecha'}"></option>
-    </select>
+      <div class="mb-3">
+        <label class="form-label">Tipo</label>
+        <select name="tipo" class="form-control" required>
+          <option th:value="Polinizacion" th:selected="${labor.tipo == 'Polinizacion'}">Polinizacion</option>
+          <option th:value="Fertilizacion" th:selected="${labor.tipo == 'Fertilizacion'}">Fertilizacion</option>
+          <option th:value="Control malezas" th:selected="${labor.tipo == 'Control malezas'}">Control malezas</option>
+          <option th:value="Sanidad" th:selected="${labor.tipo == 'Sanidad'}">Sanidad</option>
+          <option th:value="Cosecha" th:selected="${labor.tipo == 'Cosecha'}">Cosecha</option>
+        </select>
+      </div>
 
-    <label>Frecuencia (días):</label>
-    <input type="number" name="frecuenciaDias" th:value="${labor.frecuenciaDias}" required>
+      <div class="mb-3">
+        <label class="form-label">Frecuencia (días)</label>
+        <input type="number" name="frecuenciaDias" class="form-control" th:value="${labor.frecuenciaDias}" required>
+      </div>
 
-    <label>Fecha última ejecución:</label>
-    <input type="date" name="fechaUltimaEjecucion" 
-           th:value="${labor.fechaUltimaEjecucion}" required>
+      <div class="mb-3">
+        <label class="form-label">Fecha última ejecución</label>
+        <input type="date" name="fechaUltimaEjecucion" class="form-control" th:value="${labor.fechaUltimaEjecucion}" required>
+      </div>
 
-    <label>Trabajador:</label>
-    <select name="trabajadorId" required>
-        <option th:each="t : ${trabajadores}" 
-                th:value="${t.id}" 
-                th:text="${t.nombre}" 
-                th:selected="${t.id == labor.trabajador.id}">
-        </option>
-    </select>
+      <div class="mb-3">
+        <label class="form-label">Trabajador</label>
+        <select name="trabajadorId" class="form-control" required>
+          <option th:each="t : ${trabajadores}" th:value="${t.id}" th:text="${t.nombre}"
+            th:selected="${t.id == labor.trabajador.id}"></option>
+        </select>
+      </div>
 
-    <label>Precio:</label>
-    <input type="number" name="precio" step="0.01" th:value="${labor.precio}" required>
+      <div class="mb-4">
+        <label class="form-label">Precio</label>
+        <input type="number" name="precio" step="0.01" class="form-control" th:value="${labor.precio}" required>
+      </div>
 
-    <button type="submit">Actualizar Labor</button>
-</form>
+      <div class="d-flex justify-content-between">
+        <a th:href="@{'/lotes/' + ${labor.lote.id}}" class="btn btn-secondary-custom">Volver al lote</a>
+        <button type="submit" class="btn btn-main">Actualizar Labor</button>
+      </div>
+    </form>
+  </div>
+</div>
 
-<a th:href="@{'/lotes/' + ${labor.lote.id}}">Volver al lote</a>
-
+<script>if(localStorage.getItem('theme')==='dark')document.body.classList.add('dark');</script>
 </body>
 </html>

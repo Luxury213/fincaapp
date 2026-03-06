@@ -1,87 +1,71 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-
+<title>Finanzas | FincaApp</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-
+<link rel="icon" type="image/svg+xml" href="/images/banana-icon.svg">
 <style>
+body{background:linear-gradient(135deg,#e8f5e9,#f1f8e9,#e0f2f1);font-family:system-ui;min-height:100vh;transition:background 0.3s,color 0.3s;}
+.navbar{background:#2E7D32;box-shadow:0 3px 10px rgba(0,0,0,0.1);}
+.navbar-brand{font-weight:600;font-size:18px;}
+.page-card{background:white;border-radius:16px;padding:30px;box-shadow:0 10px 25px rgba(0,0,0,0.08);}
+.page-title{font-size:26px;font-weight:700;color:#1B5E20;}
+.table thead{background:#C8E6C9;}
+.table tbody tr:hover{background:#F1F8E9;}
+.btn-main{background:#2E7D32;border:none;border-radius:8px;padding:8px 18px;color:white;font-weight:500;}
+.btn-main:hover{background:#1B5E20;color:white;}
 
-body{
-background:#F1F8E9;
-}
-
-.navbar{
-background:#2E7D32;
-}
-
-.table-success{
-background:#C8E6C9;
-}
-
+/* DARK MODE */
+body.dark{background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460);color:#e0e0e0;}
+body.dark .page-title{color:#81c784;}
+body.dark .page-card{background:#1e1e2e;box-shadow:0 10px 25px rgba(0,0,0,0.4);}
+body.dark .table{--bs-table-bg:#1e1e2e;--bs-table-color:#e0e0e0;--bs-table-hover-bg:#2a2a3e;--bs-table-striped-bg:#1e1e2e;border-color:#333;}
+body.dark .table thead th{background:#2a3a2a;color:#81c784;}
+body.dark td{color:#e0e0e0;}
 </style>
-
-<title>Finanzas</title>
-
 </head>
-
 <body>
 
 <nav class="navbar navbar-dark">
-<a class="navbar-brand ms-3" href="/">
-FincaApp - Finanzas
-</a>
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <img src="/images/banana-icon.svg" width="28"> FincaApp
+    </a>
+  </div>
 </nav>
 
-<div class="container mt-4">
+<div class="container mt-5">
+  <div class="page-card">
+    <div class="page-title mb-4">💰 Finanzas - Sueldos</div>
 
-<h2 class="mb-4">Sueldos de Trabajadores</h2>
-
-<table class="table table-striped table-bordered">
-
-<thead class="table-success">
-
-<tr>
-
-<th>ID</th>
-<th>Nombre</th>
-<th>Documento</th>
-<th>Sueldo Base</th>
-<th>Reporte</th>
-
-</tr>
-
-</thead>
-
-<tbody>
-
-<tr th:each="trabajador : ${trabajadores}">
-
-<td th:text="${trabajador.id}"></td>
-<td th:text="${trabajador.nombre}"></td>
-<td th:text="${trabajador.documento}"></td>
-
-<td>
-<span th:text="${trabajador.sueldoBase != null ? '$ ' + trabajador.sueldoBase : '$ 0'}"></span>
-</td>
-
-<td>
-
-<a th:href="@{/finanzas/reporte/{id}(id=${trabajador.id},mes=3,anio=2026)}"
-class="btn btn-success">
-
-Ver reporte
-
-</a>
-
-</td>
-
-</tr>
-
-</tbody>
-
-</table>
-
+    <table class="table table-hover align-middle">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Documento</th>
+          <th>Sueldo Base</th>
+          <th>Reporte</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="trabajador : ${trabajadores}">
+          <td th:text="${trabajador.id}"></td>
+          <td th:text="${trabajador.nombre}"></td>
+          <td th:text="${trabajador.documento}"></td>
+          <td>
+            <span th:text="${trabajador.sueldoBase != null ? '$ ' + trabajador.sueldoBase : '$ 0'}"></span>
+          </td>
+          <td>
+            <a th:href="@{/finanzas/reporte/{id}(id=${trabajador.id},mes=3,anio=2026)}"
+               class="btn btn-main btn-sm">Ver reporte</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
 
+<script>if(localStorage.getItem('theme')==='dark')document.body.classList.add('dark');</script>
 </body>
 </html>
