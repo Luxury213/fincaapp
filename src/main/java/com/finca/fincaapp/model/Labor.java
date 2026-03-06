@@ -1,13 +1,16 @@
 package com.finca.fincaapp.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -36,13 +39,14 @@ public class Labor {
 
     private Double precio;
 
-    // RELACION CON LOTE
     @ManyToOne
     @JoinColumn(name = "lote_id")
     private Lote lote;
 
-    // RELACION CON TRABAJADOR 
     @ManyToOne
     @JoinColumn(name = "trabajador_id")
     private Trabajador trabajador;
+
+    @OneToMany(mappedBy = "labor", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<HistorialEjecucion> historial;
 }

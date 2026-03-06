@@ -42,3 +42,4 @@ node_modules/
 
 ### Configuración sensible ###
 src/main/resources/application.yml
+src/main/resources/application-local.properties
