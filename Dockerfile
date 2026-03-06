@@ -5,7 +5,7 @@ COPY . .
 RUN chmod +x mvnw
 RUN ./mvnw clean package -DskipTests
 
-# Etapa 2: runtime (imagen más liviana)
+# Etapa 2: runtime
 FROM eclipse-temurin:17-jre
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
