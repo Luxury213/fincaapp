@@ -184,6 +184,12 @@ body.dark .theme-toggle {
       btn.textContent = '🌙 Modo oscuro';
     }
   }
+
+    // Mantener servidor despierto
+  setInterval(() => {
+    fetch('/actuator/health').catch(() => {});
+  }, 14 * 60 * 1000);
+  
 </script>
 
 </body>
